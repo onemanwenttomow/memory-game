@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* https://colorhunt.co/palette/6998 */
+
+body {
+    /* background-color: teal */
+}
+
+#board {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #80d6ff;
+    border-radius: 5px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    height: 15vw;
+    width: 15vw;
+    margin: 0.66vw;
+    font-size: 70px;
+}
