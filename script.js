@@ -2,16 +2,12 @@ var cards = ["🐶", "🐱", "🦄", "🐮", "🐷", "🐔", "🐸", "🦊", "�
 var doubles = cards.slice();
 var totalCards = cards.concat(doubles);
 var shuffledCards = shuffleArray(totalCards);
+// var shuffledCards = totalCards;
+var numberOfCards, isInMotion;
 
 var board = document.getElementById("board");
 let cardsHtml = "";
 for (var i = 0; i < shuffledCards.length; i++) {
-    // cardsHtml += '<div class="flip-card">';
-    // cardsHtml += '<div class="flip-card-inner">';
-    // cardsHtml += '<div class="flip-card-front"></div>';
-    // cardsHtml += '<div class="flip-card-back">';
-    // cardsHtml += shuffledCards[i];
-    // cardsHtml += '</div></div>';
     cardsHtml +=`<div class="flip-card">
                     <div class="flip-card-inner">
                         <div class="flip-card-front"></div>
@@ -20,7 +16,28 @@ for (var i = 0; i < shuffledCards.length; i++) {
                         </div>
                     </div>
                 </div>`;
-    // cardsHtml += "<div class='card'>" + shuffledCards[i] + "</div>";
+}
+
+function checkForPair() {
+    numberOfCards = document.querySelectorAll(".hightlighted");
+    if (numberOfCards.length > 1 && numberOfCards[0].innerText == numberOfCards[1].innerText) {
+        isInMotion = true;
+        setTimeout(function(){
+            for (var i = 0; i < numberOfCards.length; i++) {
+                numberOfCards[i].classList.remove('hightlighted');
+                numberOfCards[i].parentNode.classList.add('pair');
+                isInMotion = false;
+            }
+        }, 1000);
+    } else if (numberOfCards.length > 1 && numberOfCards[0].innerText != numberOfCards[1].innerText){
+        isInMotion = true;
+        setTimeout(function(){
+            for (var i = 0; i < numberOfCards.length; i++) {
+                numberOfCards[i].classList.remove('hightlighted');
+                isInMotion = false;
+            }
+        }, 1000);
+    }
 
 }
 
@@ -37,8 +54,18 @@ function shuffleArray(array) {
 board.innerHTML= cardsHtml;
 
 document.addEventListener("click", function(e) {
-    console.log(e);
-    if (e.target && e.target.className== 'flip-card-front'){
-        e.target.classList.add('hightlighted');
+    if (isInMotion) {
+        return;
     }
+    if (e.target.parentNode.className == "flip-card-inner hightlighted") {
+        console.log("no cheating!");
+        return;
+    }
+    if (e.target && e.target.className == 'flip-card-front') {
+        e.target.parentNode.classList.add("hightlighted");
+    }
+    if (e.target && e.target.className == 'flip-card-back') {
+        e.target.parentNode.classList.remove("hightlighted");
+    }
+    checkForPair();
 });
